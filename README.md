@@ -31,8 +31,9 @@ My project includes the following files:
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
-python drive.py model3.h5
+python drive.py model_output/model3.h5
 ```
+The output video is in the directory `model_output`
 
 #### 3. Submission code is usable and readable
 
@@ -100,7 +101,7 @@ The final model architecture (behavioral_cloning.ipynb cell # 6) consisted of a 
 |   dense_2 (Dense)                   |   (None, 128)             |      32896          |
 |   dense_3 (Dense)                   |   (None, 64)              |      8256           |
 |   dense_4 (Dense)                   |   (None, 1)               |      65             |
-|:-----------------------------------:|:-------------------------:|:-------------------:| 
+
 
 * Total params: 4,552,993
 * Trainable params: 4,552,993

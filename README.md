@@ -1,125 +1,133 @@
-# Behavioral Cloning Project
+**Behavioral Cloning Project**
 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
-
-Overview
----
-This repository contains starting files for the Behavioral Cloning Project.
-
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to clone driving behavior. You will train, validate and test a model using Keras. The model will output a steering angle to an autonomous vehicle.
-
-We have provided a simulator where you can steer a car around a track for data collection. You'll use image data and steering angles to train a neural network and then use this model to drive the car autonomously around the track.
-
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Behavioral-Cloning-P3/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
-
-To meet specifications, the project will require submitting five files: 
-* model.py (script used to create and train the model)
-* drive.py (script to drive the car - feel free to modify this file)
-* model.h5 (a trained Keras model)
-* a report writeup file (either markdown or pdf)
-* video.mp4 (a video recording of your vehicle driving autonomously around the track for at least one full lap)
-
-This README file describes how to output the video in the "Details About Files In This Directory" section.
-
-Creating a Great Writeup
----
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/432/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
 The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior 
-* Design, train and validate a model that predicts a steering angle from image data
-* Use the model to drive the vehicle autonomously around the first track in the simulator. The vehicle should remain on the road for an entire loop around the track.
+* Use the simulator to collect data of good driving behavior
+* Build, a convolution neural network in Keras that predicts steering angles from images
+* Train and validate the model with a training and validation set
+* Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-### Dependencies
-This lab requires:
 
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
+[//]: # (Image References)
 
-The lab enviroment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
+[image1]: ./Sample_Train_Images.jpg "Sample Train Images"
+[image2]: ./Model_Train_History.jpg "Model Training History"
 
-The following resources can be found in this github repository:
-* drive.py
-* video.py
-* writeup_template.md
+## Rubric Points
+### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
-The simulator can be downloaded from the classroom. In the classroom, we have also provided sample data that you can optionally use to help train your model.
+---
+### Files Submitted & Code Quality
 
-## Details About Files In This Directory
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
-### `drive.py`
+My project includes the following files:
+* behavioral_cloning.ipynb containing the script to create and train the model
+* drive.py for driving the car in autonomous mode
+* model3.h5 containing a trained CNN model
+* README.md summarizing the results
 
-Usage of `drive.py` requires you have saved the trained model as an h5 file, i.e. `model.h5`. See the [Keras documentation](https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model) for how to create this file using the following command:
+#### 2. Submission includes functional code
+Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
-model.save(filepath)
+python drive.py model3.h5
 ```
 
-Once the model has been saved, it can be used with drive.py using this command:
+#### 3. Submission code is usable and readable
 
-```sh
-python drive.py model.h5
-```
+The behavioral_cloning.ipynb file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-The above command will load the trained model and use the model to make predictions on individual images in real-time and send the predicted angle back to the server via a websocket connection.
+### Model Architecture and Training Strategy
 
-Note: There is known local system's setting issue with replacing "," with "." when using drive.py. When this happens it can make predicted steering values clipped to max/min values. If this occurs, a known fix for this is to add "export LANG=en_US.utf8" to the bashrc file.
+#### 1. An appropriate model architecture has been employed
 
-#### Saving a video of the autonomous agent
+My model consists of a convolution neural network with filter sizes 7, 5, and 3 and depths between 16 and 256 (behavioral_cloning.ipynb cell # 6) 
 
-```sh
-python drive.py model.h5 run1
-```
+The model includes RELU layers to introduce nonlinearity, Dropout layers for regularization, and the data is mean normalized in the model using a Keras lambda layer. The input image is cropped using the Keras Cropping2D layer. 
 
-The fourth argument, `run1`, is the directory in which to save the images seen by the agent. If the directory already exists, it'll be overwritten.
+#### 2. Attempts to reduce overfitting in the model
 
-```sh
-ls run1
+The model contains dropout layers in order to reduce overfitting (behavioral_cloning.ipynb cell # 6). 
 
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_424.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_451.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_477.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_528.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_573.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_618.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_697.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_723.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_749.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_817.jpg
-...
-```
+The model was trained and validated on different data sets to ensure that the model was not overfitting (behavioral_cloning.ipynb cell # 7). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-The image file name is a timestamp of when the image was seen. This information is used by `video.py` to create a chronological video of the agent driving.
+#### 3. Model parameter tuning
 
-### `video.py`
+The model used an adam optimizer, so the learning rate was not tuned manually (behavioral_cloning.ipynb cell # 7). Number of Epochs hyperparameter was tuned to achive best validation metric performance.
 
-```sh
-python video.py run1
-```
+#### 4. Appropriate training data
 
-Creates a video based on images found in the `run1` directory. The name of the video will be the name of the directory followed by `'.mp4'`, so, in this case the video will be `run1.mp4`.
+Training data was chosen to keep the vehicle driving on the road. I used mostly center lane driving data. I collected training data by running two laps on the first track - one CW and another CCW - Both laps were clean driving data & no off-lane recovery data was collected. I combined this data with the data provided in the project Repo. I didn't explicitly take the recovery from off-lane driving data, as the model was able to do well on the first track just with the clean driving data. For the first track, the model is essentially seeing the train data itself in the autonomous mode. That's why the model was able to do well even without the off-lane recovery data. However, data corresponding to recovery would be needed for the model to be able to generalize well on unseen tracks. 
 
-Optionally, one can specify the FPS (frames per second) of the video:
 
-```sh
-python video.py run1 --fps 48
-```
+### Model Architecture and Training Strategy
 
-Will run the video at 48 FPS. The default FPS is 60.
+#### 1. Solution Design Approach
 
-#### Why create a video
+The overall strategy for deriving a model architecture was to build a CNN model and train until the train set performance saturates; i.e. the bias is removed, then regularize the model to improve the validation set performance by removing variance. Subsequently, test the model on the simulator and if the model is not at all able to drive the car then increase the complexity of the model, else if the model is mostly able to drive the car and fails in certain places then collect more data for those places.
 
-1. It's been noted the simulator might perform differently based on the hardware. So if your model drives succesfully on your machine it might not on another machine (your reviewer). Saving a video is a solid backup in case this happens.
-2. You could slightly alter the code in `drive.py` and/or `video.py` to create a video of what your model sees after the image is processed (may be helpful for debugging).
+My first step was to use a 6 layer deep CNN model with filter kerrnel sizes 7,5, and 3, three Dense layers and no Dropout layers. Then i trained this model and tuned the number of Epochs to maximize the validation set performance (MAE on both train & validation sets around 0.05). When I tested this model on the simulator, the car was mostly able to drive but it was oscillating between the left & right lane lines in a sinusoidal manner but at the same time remaining within the lane lines. At some occassions, the car went off road as well.
 
-### Tips
-- Please keep in mind that training images are loaded in BGR colorspace using cv2 while drive.py load images in RGB to predict the steering angles.
+Then I increased the model complexity to total 9 layers and added two Dropout layers to handle overfitting and tuned the model for best validation test performance. This time the MAE on both train & validation set were around 0.08, which was higher that what I got on the previous smaller model. However, this model did better on the test track and the oscillation behavior was gone. The model was able to nicely drive the car on the first track. I tested this model on second track but it went off the road after driving correctly for a while. This shows that the model is not generalizable to unseen tracks, but it is doing well on the first track.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+
+#### 2. Final Model Architecture
+
+The final model architecture (behavioral_cloning.ipynb cell # 6) consisted of a convolution neural network with the following layers and layer sizes - 
+
+Layer (type)                 Output Shape              Param #   
+_________________________________________________________________
+lambda (Lambda)              (None, 160, 320, 3)       0         
+_________________________________________________________________
+cropping2d (Cropping2D)      (None, 90, 320, 3)        0         
+_________________________________________________________________
+conv2d (Conv2D)              (None, 84, 314, 16)       2368      
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 42, 157, 16)       0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 36, 151, 32)       25120     
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 18, 75, 32)        0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 14, 71, 64)        51264     
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 7, 35, 64)         0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 5, 33, 128)        73856     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 2, 16, 128)        0         
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 2, 16, 256)        33024     
+_________________________________________________________________
+flatten (Flatten)            (None, 8192)              0         
+_________________________________________________________________
+dense (Dense)                (None, 512)               4194816   
+_________________________________________________________________
+dropout (Dropout)            (None, 512)               0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 256)               131328    
+_________________________________________________________________
+dense_2 (Dense)              (None, 128)               32896     
+_________________________________________________________________
+dense_3 (Dense)              (None, 64)                8256      
+_________________________________________________________________
+dense_4 (Dense)              (None, 1)                 65        
+_________________________________________________________________
+Total params: 4,552,993
+Trainable params: 4,552,993
+Non-trainable params: 0
+
+
+#### 3. Creation of the Training Set & Training Process
+
+To capture good driving behavior, I first recorded two laps on track one using center lane driving - once CW and once CCW. Here is an example image of center lane driving:
+
+![alt text][image1]
+
+I combined this data with the data provided in the Project repo.
+After the collection process, I had 10,134 number of data points. I, then, added / subtracted a correction of 0.2 for the steering angles for images from left and right cameras respectively. This led to total 30,402 data points. I split this dataset 80:20 into train and validation sets.
+
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 13 as evidenced by the following training history plots.
+
+![alt text][image2]
 

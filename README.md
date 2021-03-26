@@ -77,7 +77,7 @@ Then i trained this model and tuned the number of Epochs to maximize the validat
 
 Then I increased the model complexity to 
 * total 9 layers, and 
-* added two Dropout layers to handle overfitting 
+* added one Dropout layer to handle overfitting 
 
 Then i tuned the model for the best validation test performance. This time, the MAEs on both train & validation set were around 0.08, which was higher that what I got on the previous smaller model. However, this model did better on the test track and the oscillation behavior was gone. The model was able to nicely drive the car on the first track. I tested this model on second track but it went off the road after driving correctly for a while. This shows that the model is not generalizable to unseen tracks, but it is doing well on the first track.
 

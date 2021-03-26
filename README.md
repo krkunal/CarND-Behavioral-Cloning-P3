@@ -66,7 +66,11 @@ Training data was chosen to keep the vehicle driving on the road. I used mostly 
 
 The overall strategy for deriving a model architecture was to build a CNN model and train until the train set performance saturates; i.e. the bias is removed, then regularize the model to improve the validation set performance by removing variance. Subsequently, test the model on the simulator and if the model is not at all able to drive the car then increase the complexity of the model, else if the model is mostly able to drive the car and fails in certain places then collect more data for those places.
 
-My first step was to use a 6 layer deep CNN model with filter kerrnel sizes 7,5, and 3, three Dense layers and no Dropout layers. Then i trained this model and tuned the number of Epochs to maximize the validation set performance (MAE on both train & validation sets around 0.05). When I tested this model on the simulator, the car was mostly able to drive but it was oscillating between the left & right lane lines in a sinusoidal manner but at the same time remaining within the lane lines. At some occassions, the car went off road as well.
+My first step was to use a 6 layer deep CNN model with 
+* filter kernel sizes 7, 5, and 3 
+* three Dense layers, and 
+* no Dropout layers 
+Then i trained this model and tuned the number of Epochs to maximize the validation set performance (MAE on both train & validation sets around 0.05). When I tested this model on the simulator, the car was mostly able to drive but it was oscillating between the left & right lane lines in a sinusoidal manner but at the same time remaining within the lane lines. At some occassions, the car went off road as well.
 
 Then I increased the model complexity to total 9 layers and added two Dropout layers to handle overfitting and tuned the model for best validation test performance. This time the MAE on both train & validation set were around 0.08, which was higher that what I got on the previous smaller model. However, this model did better on the test track and the oscillation behavior was gone. The model was able to nicely drive the car on the first track. I tested this model on second track but it went off the road after driving correctly for a while. This shows that the model is not generalizable to unseen tracks, but it is doing well on the first track.
 
@@ -75,47 +79,31 @@ Then I increased the model complexity to total 9 layers and added two Dropout la
 
 The final model architecture (behavioral_cloning.ipynb cell # 6) consisted of a convolution neural network with the following layers and layer sizes - 
 
-Layer (type)                 Output Shape              Param #   
-_________________________________________________________________
-lambda (Lambda)              (None, 160, 320, 3)       0         
-_________________________________________________________________
-cropping2d (Cropping2D)      (None, 90, 320, 3)        0         
-_________________________________________________________________
-conv2d (Conv2D)              (None, 84, 314, 16)       2368      
-_________________________________________________________________
-max_pooling2d (MaxPooling2D) (None, 42, 157, 16)       0         
-_________________________________________________________________
-conv2d_1 (Conv2D)            (None, 36, 151, 32)       25120     
-_________________________________________________________________
-max_pooling2d_1 (MaxPooling2 (None, 18, 75, 32)        0         
-_________________________________________________________________
-conv2d_2 (Conv2D)            (None, 14, 71, 64)        51264     
-_________________________________________________________________
-max_pooling2d_2 (MaxPooling2 (None, 7, 35, 64)         0         
-_________________________________________________________________
-conv2d_3 (Conv2D)            (None, 5, 33, 128)        73856     
-_________________________________________________________________
-max_pooling2d_3 (MaxPooling2 (None, 2, 16, 128)        0         
-_________________________________________________________________
-conv2d_4 (Conv2D)            (None, 2, 16, 256)        33024     
-_________________________________________________________________
-flatten (Flatten)            (None, 8192)              0         
-_________________________________________________________________
-dense (Dense)                (None, 512)               4194816   
-_________________________________________________________________
-dropout (Dropout)            (None, 512)               0         
-_________________________________________________________________
-dense_1 (Dense)              (None, 256)               131328    
-_________________________________________________________________
-dense_2 (Dense)              (None, 128)               32896     
-_________________________________________________________________
-dense_3 (Dense)              (None, 64)                8256      
-_________________________________________________________________
-dense_4 (Dense)              (None, 1)                 65        
-_________________________________________________________________
-Total params: 4,552,993
-Trainable params: 4,552,993
-Non-trainable params: 0
+|       Layer (type)                  |      Output Shape         |      Param #        |
+|:-----------------------------------:|:-------------------------:|:-------------------:| 
+|   lambda (Lambda)                   |   (None, 160, 320, 3)     |      0              |
+|   cropping2d (Cropping2D)           |   (None, 90, 320, 3)      |      0              |
+|   conv2d (Conv2D)                   |   (None, 84, 314, 16)     |      2368           |
+|   max_pooling2d (MaxPooling2D)      |   (None, 42, 157, 16)     |      0              |
+|   conv2d_1 (Conv2D)                 |   (None, 36, 151, 32)     |      25120          |
+|   max_pooling2d_1 (MaxPooling2D)    |   (None, 18, 75, 32)      |      0              |
+|   conv2d_2 (Conv2D)                 |   (None, 14, 71, 64)      |      51264          |
+|   max_pooling2d_2 (MaxPooling2D)    |   (None, 7, 35, 64)       |      0              |
+|   conv2d_3 (Conv2D)                 |   (None, 5, 33, 128)      |      73856          |
+|   max_pooling2d_3 (MaxPooling2D)    |   (None, 2, 16, 128)      |      0              |
+|   conv2d_4 (Conv2D)                 |   (None, 2, 16, 256)      |      33024          |
+|   flatten (Flatten)                 |   (None, 8192)            |      0              |
+|   dense (Dense)                     |   (None, 512)             |      4194816        |
+|   dropout (Dropout)                 |   (None, 512)             |      0              |
+|   dense_1 (Dense)                   |   (None, 256)             |      131328         |
+|   dense_2 (Dense)                   |   (None, 128)             |      32896          |
+|   dense_3 (Dense)                   |   (None, 64)              |      8256           |
+|   dense_4 (Dense)                   |   (None, 1)               |      65             |
+|:-----------------------------------:|:-------------------------:|:-------------------:| 
+
+* Total params: 4,552,993
+* Trainable params: 4,552,993
+* Non-trainable params: 0
 
 
 #### 3. Creation of the Training Set & Training Process
@@ -125,7 +113,7 @@ To capture good driving behavior, I first recorded two laps on track one using c
 ![alt text][image1]
 
 I combined this data with the data provided in the Project repo.
-After the collection process, I had 10,134 number of data points. I, then, added / subtracted a correction of 0.2 for the steering angles for images from left and right cameras respectively. This led to total 30,402 data points. I split this dataset 80:20 into train and validation sets.
+After the collection process, I had 10,134 data points. I, then, added / subtracted a correction of 0.2 for the steering angles for images from left and right cameras respectively. This led to total 30,402 data points. I split this dataset 80:20 into train and validation sets.
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 13 as evidenced by the following training history plots.
 

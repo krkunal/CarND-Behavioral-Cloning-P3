@@ -10,8 +10,8 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./Sample_Train_Images.jpg "Sample Train Images"
-[image2]: ./Model_Train_History.jpg "Model Training History"
+[image1]: ./examples/Sample_Train_Images.jpg "Sample Train Images"
+[image2]: ./examples/Model_Train_History.jpg "Model Training History"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -24,7 +24,8 @@ The goals / steps of this project are the following:
 My project includes the following files:
 * behavioral_cloning.ipynb containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
-* model3.h5 containing a trained CNN model
+* model3.h5 containing a trained CNN model (./model_output/model3.h5)
+* output3.mp4 output video of autonomous mode (./model_output/output3.mp4)
 * README.md summarizing the results
 
 #### 2. Submission includes functional code

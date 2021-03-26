@@ -72,9 +72,14 @@ My first step was to use a 6 layer deep CNN model with
 * filter kernel sizes 7, 5, and 3 
 * three Dense layers, and 
 * no Dropout layers 
+
 Then i trained this model and tuned the number of Epochs to maximize the validation set performance (MAE on both train & validation sets around 0.05). When I tested this model on the simulator, the car was mostly able to drive but it was oscillating between the left & right lane lines in a sinusoidal manner but at the same time remaining within the lane lines. At some occassions, the car went off road as well.
 
-Then I increased the model complexity to total 9 layers and added two Dropout layers to handle overfitting and tuned the model for best validation test performance. This time the MAE on both train & validation set were around 0.08, which was higher that what I got on the previous smaller model. However, this model did better on the test track and the oscillation behavior was gone. The model was able to nicely drive the car on the first track. I tested this model on second track but it went off the road after driving correctly for a while. This shows that the model is not generalizable to unseen tracks, but it is doing well on the first track.
+Then I increased the model complexity to 
+* total 9 layers, and 
+* added two Dropout layers to handle overfitting 
+
+Then i tuned the model for the best validation test performance. This time, the MAEs on both train & validation set were around 0.08, which was higher that what I got on the previous smaller model. However, this model did better on the test track and the oscillation behavior was gone. The model was able to nicely drive the car on the first track. I tested this model on second track but it went off the road after driving correctly for a while. This shows that the model is not generalizable to unseen tracks, but it is doing well on the first track.
 
 
 #### 2. Final Model Architecture
